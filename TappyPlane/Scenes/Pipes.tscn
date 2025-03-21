@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvsbhs4ksmmrq"]
+
+[ext_resource type="PackedScene" uid="uid://deokaw5l5nsa8" path="res://Scenes/Pipe.tscn" id="1_iloy2"]
+[ext_resource type="PackedScene" uid="uid://d02dx7b1ay7e" path="res://Scenes/Laser.tscn" id="2_y0sjt"]
+
+[node name="Pipes" type="Node2D"]
+
+[node name="Pipe" parent="." instance=ExtResource("1_iloy2")]
+z_index = 2
+position = Vector2(-35, 92)
+
+[node name="Pipe2" parent="." instance=ExtResource("1_iloy2")]
+z_index = 2
+position = Vector2(34, -88)
+rotation = 3.14159
+
+[node name="Laser" parent="." instance=ExtResource("2_y0sjt")]
