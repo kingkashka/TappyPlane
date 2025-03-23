@@ -4,6 +4,7 @@ using System.Collections;
 
 public partial class Game : Node2D
 {
+	private static readonly PackedScene MAINSCENE = GD.Load<PackedScene>("A:/Godot_Projects/Tappy/TappyPlane/Scenes/Main.tscn");
 	[Export] AudioStreamPlayer2D scoreSound;
 	[Export] PackedScene pipeScene;
 	[Export] Timer timer;
@@ -11,6 +12,7 @@ public partial class Game : Node2D
 	[Export] Marker2D spawnMarker2;
 	[Export] private Plane plane;
 	[Export] Label ScoreLabel;
+	private bool gamePlay = true;
 	public float playerScore = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -24,6 +26,14 @@ public partial class Game : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustPressed("Fly") && !gamePlay)
+		{
+		MainMenu();
+		}
+		if(Input.IsKeyPressed(Key.Escape))
+		{
+			MainMenu();
+		}
 	}
 
 	public void SpawnPipes()
@@ -48,7 +58,7 @@ public partial class Game : Node2D
 	{
 		GD.Print("Plane Died");
 	}
-	
+
 	private void OnGameOver()
 	{
 		GD.Print("Game Over");
@@ -57,5 +67,11 @@ public partial class Game : Node2D
 			node.SetProcess(false);
 		}
 		timer.Stop();
+		gamePlay = false;
+	}
+
+	private void MainMenu()
+	{
+		GetTree().ChangeSceneToPacked(MAINSCENE);
 	}
 }
