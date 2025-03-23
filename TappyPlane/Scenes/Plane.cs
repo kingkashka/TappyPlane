@@ -1,12 +1,15 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class Plane : CharacterBody2D
 {
 	
 	const float gravity = 800.0f;
 	[Export] float jumpForce = -350.0f;
+	[Export] AnimatedSprite2D Plane2D;	
 	[Export] AnimationPlayer animationPlayer;
+	[Signal] public delegate void OnDiedEventHandler();
 	public override void _Ready()
 	{
 	}
@@ -19,6 +22,11 @@ public partial class Plane : CharacterBody2D
 			Velocity = velocity;
 			MoveAndSlide();
 			Fly();
+
+			if(IsOnFloor())
+			{
+				Die();
+			}	
 	}
 
 	private void Fly()
@@ -32,4 +40,12 @@ public partial class Plane : CharacterBody2D
 		}
 	}
 
+	public void Die()
+	{
+		SetPhysicsProcess(false);
+		EmitSignal(SignalName.OnDied);
+		Plane2D.Stop();
+	}
 }
+
+	

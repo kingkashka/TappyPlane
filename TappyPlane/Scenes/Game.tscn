@@ -1,17 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqy8xn0pm8l6s"]
+[gd_scene load_steps=6 format=3 uid="uid://dqy8xn0pm8l6s"]
 
 [ext_resource type="Script" uid="uid://6qeufrt1psuq" path="res://Scenes/Game.cs" id="1_gl6un"]
 [ext_resource type="Texture2D" uid="uid://lx8iq5lf0e10" path="res://Assetts/background/rocks_2.png" id="1_iukft"]
-[ext_resource type="AudioStream" uid="uid://brf8flwix0nyo" path="res://Assetts/audio/score.wav" id="2_7lihs"]
 [ext_resource type="PackedScene" uid="uid://bystv8e3d6rwh" path="res://Scenes/Plane.tscn" id="3_j5yw3"]
 [ext_resource type="PackedScene" uid="uid://bib70fe03iv4q" path="res://Scenes/Barrier.tscn" id="4_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvsbhs4ksmmrq" path="res://Scenes/Pipes.tscn" id="5_b2bpf"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("timer")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("timer", "spawnMarker1", "spawnMarker2", "plane", "ScoreLabel")]
 script = ExtResource("1_gl6un")
-scoreSound = ExtResource("2_7lihs")
 pipeScene = ExtResource("5_b2bpf")
 timer = NodePath("Timer")
+spawnMarker1 = NodePath("Marker2D")
+spawnMarker2 = NodePath("Marker2D2")
+plane = NodePath("Plane")
+ScoreLabel = NodePath("ScoreLabel")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(269, 430)
@@ -26,9 +28,20 @@ position = Vector2(0, 840)
 
 [node name="Barrier2" parent="." instance=ExtResource("4_kldst")]
 
-[node name="Pipes" parent="." instance=ExtResource("5_b2bpf")]
-position = Vector2(225, 437)
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5
 autostart = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(407, 300)
+
+[node name="Marker2D2" type="Marker2D" parent="."]
+position = Vector2(407, 580)
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 39.0
+text = "0000"
+horizontal_alignment = 1

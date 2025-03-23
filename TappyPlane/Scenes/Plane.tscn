@@ -74,9 +74,10 @@ _data = {
 &"RESET": SubResource("Animation_2qif8")
 }
 
-[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer")]
+[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("Plane2D", "animationPlayer") groups=["plane"]]
 position = Vector2(0, -2)
 script = ExtResource("1_ng7lx")
+Plane2D = NodePath("AnimatedSprite2D")
 animationPlayer = NodePath("AnimationPlayer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
