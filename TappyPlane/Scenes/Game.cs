@@ -4,8 +4,9 @@ using System.Collections;
 
 public partial class Game : Node2D
 {
-	private static readonly PackedScene MAINSCENE = GD.Load<PackedScene>("A:/Godot_Projects/Tappy/TappyPlane/Scenes/Main.tscn");
-	[Export] AudioStreamPlayer2D scoreSound;
+	private static readonly PackedScene MAINSCENE = GD.Load<PackedScene>("res://Scenes/Main.tscn");
+	[Export] AudioStreamPlayer scoreSound;
+	[Export] AudioStreamPlayer gameOverSound;
 	[Export] PackedScene pipeScene;
 	[Export] Timer timer;
 	[Export] Marker2D spawnMarker1;
@@ -21,6 +22,10 @@ public partial class Game : Node2D
 		plane.OnDied += OnGameOver;
 		// Pipes.OnScored += OnScored;
 		SpawnPipes();
+		AudioStream audioStream = GetNode<AudioStream>("AudioStreamPlayer");
+		AudioStream audioStream2 = GetNode<AudioStream>("AudioStreamPlayer2");
+		// AudioStream audioStream = (audioStream)GD.Load("Assetts/audio/score.wav");
+		// AudioStream audioStream2 = (audioStream)GD.Load("Assetts/audio/score.wav");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,9 +33,9 @@ public partial class Game : Node2D
 	{
 		if (Input.IsActionJustPressed("Fly") && !gamePlay)
 		{
-		MainMenu();
+			MainMenu();
 		}
-		if(Input.IsKeyPressed(Key.Escape))
+		if (Input.IsKeyPressed(Key.Escape))
 		{
 			MainMenu();
 		}
@@ -49,7 +54,7 @@ public partial class Game : Node2D
 	private void OnScored()
 	{
 		scoreSound.Play();
-		playerScore += 1;
+		playerScore++;
 		ScoreLabel.Text = playerScore.ToString();
 		GD.Print("Scored");
 	}
@@ -62,6 +67,8 @@ public partial class Game : Node2D
 	private void OnGameOver()
 	{
 		GD.Print("Game Over");
+		// gameOverSound.Stream = audioStream;
+
 		foreach (Node node in GetChildren())
 		{
 			node.SetProcess(false);
