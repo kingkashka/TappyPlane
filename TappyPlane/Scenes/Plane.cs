@@ -9,7 +9,7 @@ public partial class Plane : CharacterBody2D
 	[Export] float jumpForce = -350.0f;
 	[Export] AnimatedSprite2D Plane2D;	
 	[Export] AnimationPlayer animationPlayer;
-	[Signal] public delegate void OnDiedEventHandler();
+	
 	public override void _Ready()
 	{
 	}
@@ -43,7 +43,8 @@ public partial class Plane : CharacterBody2D
 	public void Die()
 	{
 		SetPhysicsProcess(false);
-		EmitSignal(SignalName.OnDied);
+		// EmitSignal(SignalName.OnDied);
+		SignalManager.EmitOnPlaneDied();
 		Plane2D.Stop();
 	}
 }

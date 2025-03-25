@@ -4,14 +4,14 @@ using System.Collections;
 
 public partial class Game : Node2D
 {
-	private static readonly PackedScene MAINSCENE = GD.Load<PackedScene>("res://Scenes/Main.tscn");
+	// private static readonly PackedScene MAINSCENE = GD.Load<PackedScene>("res://Scenes/Main.tscn");
 	[Export] AudioStreamPlayer scoreSound;
 	[Export] AudioStreamPlayer gameOverSound;
 	[Export] PackedScene pipeScene;
 	[Export] Timer timer;
 	[Export] Marker2D spawnMarker1;
 	[Export] Marker2D spawnMarker2;
-	[Export] private Plane plane;
+	// [Export] private Plane plane;
 	[Export] Label ScoreLabel;
 	private bool gamePlay = true;
 	public float playerScore = 0;
@@ -19,17 +19,22 @@ public partial class Game : Node2D
 	public override void _Ready()
 	{
 		timer.Timeout += SpawnPipes;
-		plane.OnDied += OnGameOver;
-		// Pipes.OnScored += OnScored;
+		SignalManager.Instance.OnDied += OnGameOver;
+		ScoreManager.ResetScore();
+		CallDeferred("LateStuff");
 		SpawnPipes();
-		AudioStream audioStream = GetNode<AudioStream>("AudioStreamPlayer");
-		AudioStream audioStream2 = GetNode<AudioStream>("AudioStreamPlayer2");
-		// AudioStream audioStream = (audioStream)GD.Load("Assetts/audio/score.wav");
-		// AudioStream audioStream2 = (audioStream)GD.Load("Assetts/audio/score.wav");
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private void LateStuff()
+	{
+		ScoreManager.ResetScore();
+	}
+    public override void _ExitTree()
+    {
+        SignalManager.Instance.OnDied -= OnGameOver;
+		SignalManager.Instance.OnScored -= OnScored;
+    }
+   
+    public override void _Process(double delta)
 	{
 		if (Input.IsActionJustPressed("Fly") && !gamePlay)
 		{
@@ -69,16 +74,17 @@ public partial class Game : Node2D
 		GD.Print("Game Over");
 		// gameOverSound.Stream = audioStream;
 
-		foreach (Node node in GetChildren())
-		{
-			node.SetProcess(false);
-		}
+		// foreach (Node node in GetChildren())
+		// {
+		// 	node.SetProcess(false);
+		// }
 		timer.Stop();
 		gamePlay = false;
 	}
 
 	private void MainMenu()
 	{
-		GetTree().ChangeSceneToPacked(MAINSCENE);
+		// GetTree().ChangeSceneToPacked(MAINSCENE);
+		GameManager.LoadMain();
 	}
 }

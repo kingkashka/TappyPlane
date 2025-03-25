@@ -8,7 +8,7 @@ public partial class Pipes : Node2D
 	[Export] private Area2D LowerPipe;
 	[Export] private Area2D UpperPipe;
 	[Export] private Area2D laser;
-	[Signal] private delegate void OnScoredEventHandler();
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -16,17 +16,21 @@ public partial class Pipes : Node2D
 		visibleOnScreenNotifier.ScreenExited += OnScreenExited;
 		LowerPipe.BodyEntered += OnPipeBodyEntered;
 		UpperPipe.BodyEntered += OnPipeBodyEntered;
-		laser.BodyEntered += Scored;
+		laser.BodyEntered += OnLaserBodyEntered;
+		SignalManager.Instance.OnDied += StopPipes;
 	}
+    public override void _ExitTree()
+    {
+        SignalManager.Instance.OnDied -= StopPipes;
+    }
 
-	private void Scored(Node2D body)
+    private void OnLaserBodyEntered(Node2D body)
 	{
-		//Great way to detect collision 
-		if (body is Plane)
+		if(body is Plane)
 		{
-			GD.Print("EmittingSignal");
-			EmitSignal(SignalName.OnScored);
+			ScoreManager.IncrementScore();
 		}
+		
 
 		// Great way to detect collision by using scene group names
 		// if(body.IsInGroup("plane"))
@@ -47,6 +51,10 @@ public partial class Pipes : Node2D
 		}
 	}
 
+	private void StopPipes()
+	{
+		SetProcess(false);
+	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

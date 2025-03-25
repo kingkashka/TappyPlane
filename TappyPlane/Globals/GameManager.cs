@@ -15,4 +15,12 @@ public partial class GameManager : Node
 		Instance = this;
 	}
 
+	public static void LoadMain()
+	{
+		Instance.GetTree().ChangeSceneToPacked(Instance.MAINSCENE);
+	}
+	public static void LoadGame()
+	{
+		Instance.GetTree().ChangeSceneToPacked(Instance.GAMESCENE);
+	}
 }
