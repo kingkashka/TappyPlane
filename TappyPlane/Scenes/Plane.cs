@@ -9,6 +9,7 @@ public partial class Plane : CharacterBody2D
 	[Export] float jumpForce = -350.0f;
 	[Export] AnimatedSprite2D Plane2D;	
 	[Export] AnimationPlayer animationPlayer;
+	[Export] AudioStreamPlayer2D engineSound;
 	
 	public override void _Ready()
 	{
@@ -22,7 +23,7 @@ public partial class Plane : CharacterBody2D
 			Velocity = velocity;
 			MoveAndSlide();
 			Fly();
-
+			engineSound.Play();
 			if(IsOnFloor())
 			{
 				Die();
@@ -46,6 +47,7 @@ public partial class Plane : CharacterBody2D
 		// EmitSignal(SignalName.OnDied);
 		SignalManager.EmitOnPlaneDied();
 		Plane2D.Stop();
+		engineSound.Stop();
 	}
 }
 

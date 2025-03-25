@@ -27,4 +27,5 @@ public partial class Main : Control
 	{
 		HighScore.Text = ScoreManager.GetHighScore().ToString();
 	}
+	
 }

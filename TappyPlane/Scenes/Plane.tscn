@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://bystv8e3d6rwh"]
+[gd_scene load_steps=12 format=3 uid="uid://bystv8e3d6rwh"]
 
 [ext_resource type="Script" uid="uid://cygnjfk3dotat" path="res://Scenes/Plane.cs" id="1_ng7lx"]
 [ext_resource type="Texture2D" uid="uid://v727ntgy8jeb" path="res://Assetts/plane/planes_sheet.png" id="1_re6bh"]
+[ext_resource type="AudioStream" uid="uid://8b0ldru2ujx5" path="res://Assetts/audio/engine.mp3" id="3_2qif8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_re6bh"]
 atlas = ExtResource("1_re6bh")
@@ -74,11 +75,12 @@ _data = {
 &"RESET": SubResource("Animation_2qif8")
 }
 
-[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("Plane2D", "animationPlayer") groups=["plane"]]
+[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("Plane2D", "animationPlayer", "engineSound") groups=["plane"]]
 position = Vector2(0, -2)
 script = ExtResource("1_ng7lx")
 Plane2D = NodePath("AnimatedSprite2D")
 animationPlayer = NodePath("AnimationPlayer")
+engineSound = NodePath("AudioStreamPlayer2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -0.579047
@@ -94,3 +96,9 @@ shape = SubResource("CircleShape2D_re6bh")
 libraries = {
 &"": SubResource("AnimationLibrary_gxf6s")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_2qif8")
+autoplay = true
+max_distance = 121.0
+parameters/looping = true

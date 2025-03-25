@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqy8xn0pm8l6s"]
+[gd_scene load_steps=8 format=3 uid="uid://dqy8xn0pm8l6s"]
 
 [ext_resource type="Script" uid="uid://6qeufrt1psuq" path="res://Scenes/Game.cs" id="1_gl6un"]
 [ext_resource type="Texture2D" uid="uid://lx8iq5lf0e10" path="res://Assetts/background/rocks_2.png" id="1_iukft"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bib70fe03iv4q" path="res://Scenes/Barrier.tscn" id="4_kldst"]
 [ext_resource type="PackedScene" uid="uid://cvsbhs4ksmmrq" path="res://Scenes/Pipes.tscn" id="5_b2bpf"]
 [ext_resource type="PackedScene" uid="uid://c30x77a7dlytu" path="res://Hud.tscn" id="6_7lihs"]
+[ext_resource type="PackedScene" uid="uid://dkx3epvhhsp6u" path="res://Scenes/ParralaxBg.tscn" id="7_fgofq"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("timer", "spawnMarker1", "spawnMarker2")]
 script = ExtResource("1_gl6un")
@@ -19,11 +20,13 @@ spawnMarker2 = NodePath("Marker2D2")
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("6_7lihs")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(269, 430)
 scale = Vector2(1, 0.789352)
 texture = ExtResource("1_iukft")
 
 [node name="Plane" parent="." instance=ExtResource("3_j5yw3")]
+z_index = 4
 position = Vector2(34, 358)
 
 [node name="Barrier" parent="." instance=ExtResource("4_kldst")]
@@ -40,3 +43,5 @@ position = Vector2(407, 300)
 
 [node name="Marker2D2" type="Marker2D" parent="."]
 position = Vector2(407, 580)
+
+[node name="ParralaxBg" parent="." instance=ExtResource("7_fgofq")]

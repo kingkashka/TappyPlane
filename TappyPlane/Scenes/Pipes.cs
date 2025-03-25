@@ -3,11 +3,12 @@ using System;
 
 public partial class Pipes : Node2D
 {
-	float speed = 120.0f;
+	
 	[Export] VisibleOnScreenNotifier2D visibleOnScreenNotifier;
 	[Export] private Area2D LowerPipe;
 	[Export] private Area2D UpperPipe;
 	[Export] private Area2D laser;
+	[Export] AudioStreamPlayer2D ScoreSound;
 	
 
 	// Called when the node enters the scene tree for the first time.
@@ -28,6 +29,7 @@ public partial class Pipes : Node2D
 	{
 		if(body is Plane)
 		{
+			ScoreSound.Play();
 			ScoreManager.IncrementScore();
 		}
 		
@@ -58,7 +60,7 @@ public partial class Pipes : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Position -= new Vector2(speed * (float)delta, 0.0F);
+		Position -= new Vector2(GameManager.speed * (float)delta, 0.0F);
 	}
 
 	private void OnScreenExited()

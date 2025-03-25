@@ -1,0 +1,160 @@
+[gd_scene load_steps=13 format=3 uid="uid://bdm3fhvqkhogj"]
+
+[ext_resource type="LabelSettings" uid="uid://doqgmydfopxrh" path="res://Assetts/Resources/LG_72.tres" id="1_k52d1"]
+[ext_resource type="Script" uid="uid://cpfajtt8k131f" path="res://Scenes/GameOver.cs" id="1_rdiyk"]
+[ext_resource type="Texture2D" uid="uid://y4hglnx54sge" path="res://Assetts/background/sky.png" id="2_bfgkh"]
+[ext_resource type="FontFile" uid="uid://bfk3y57yrk7ox" path="res://Assetts/fonts/LuckiestGuy-Regular.ttf" id="2_ktc4i"]
+[ext_resource type="AudioStream" uid="uid://5dv638gwfkdu" path="res://Assetts/audio/game_over.wav" id="5_5mu6e"]
+
+[sub_resource type="Animation" id="Animation_5mu6e"]
+resource_name = "Fade"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8710x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a14ly"]
+_data = {
+&"Fade": SubResource("Animation_5mu6e"),
+&"RESET": SubResource("Animation_8710x")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_uib17"]
+font = ExtResource("2_ktc4i")
+font_size = 64
+outline_size = 2
+outline_color = Color(1, 0.243137, 0.458824, 1)
+shadow_size = 2
+shadow_color = Color(1, 0.243137, 0.458824, 0.556863)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="Animation" id="Animation_rdiyk"]
+resource_name = "Flashing"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0999999, 1.1, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.243137, 0.458824, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bfgkh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5mu6e"]
+_data = {
+&"Flashing": SubResource("Animation_rdiyk"),
+&"RESET": SubResource("Animation_bfgkh")
+}
+
+[node name="GameOver" type="Control" node_paths=PackedStringArray("GameOverLabel", "PressSpaceLabel", "GameOverMusic", "pressSpaceTimer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rdiyk")
+GameOverLabel = NodePath("MarginContainer/Game Over Label")
+PressSpaceLabel = NodePath("MarginContainer/Press Space Label")
+GameOverMusic = NodePath("AudioStreamPlayer")
+pressSpaceTimer = NodePath("Timer")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -519.111
+offset_right = 519.111
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bfgkh")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+
+[node name="Game Over Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Game Over"
+label_settings = ExtResource("1_k52d1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/Game Over Label"]
+libraries = {
+&"": SubResource("AnimationLibrary_a14ly")
+}
+autoplay = "Fade"
+
+[node name="Press Space Label" type="Label" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Press Space"
+label_settings = SubResource("LabelSettings_uib17")
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/Press Space Label"]
+libraries = {
+&"": SubResource("AnimationLibrary_5mu6e")
+}
+autoplay = "Flashing"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_5mu6e")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true

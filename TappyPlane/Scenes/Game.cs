@@ -13,7 +13,7 @@ public partial class Game : Node2D
 	[Export] Marker2D spawnMarker2;
 	// [Export] private Plane plane;
 	[Export] Label ScoreLabel;
-	private bool gamePlay = true;
+	// private bool gamePlay = true;
 	public float playerScore = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -36,14 +36,14 @@ public partial class Game : Node2D
    
     public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("Fly") && !gamePlay)
-		{
-			MainMenu();
-		}
-		if (Input.IsKeyPressed(Key.Escape))
-		{
-			MainMenu();
-		}
+		// if (Input.IsActionJustPressed("Fly") && !gamePlay)
+		// {
+		// 	MainMenu();
+		// }
+		// if (Input.IsKeyPressed(Key.Escape))
+		// {
+		// 	MainMenu();
+		// }
 	}
 
 	public void SpawnPipes()
@@ -72,19 +72,14 @@ public partial class Game : Node2D
 	private void OnGameOver()
 	{
 		GD.Print("Game Over");
-		// gameOverSound.Stream = audioStream;
-
-		// foreach (Node node in GetChildren())
-		// {
-		// 	node.SetProcess(false);
-		// }
 		timer.Stop();
-		gamePlay = false;
+		// gamePlay = false;
+		GameManager.LoadGameOver();
 	}
 
-	private void MainMenu()
-	{
-		// GetTree().ChangeSceneToPacked(MAINSCENE);
-		GameManager.LoadMain();
-	}
+	// private void MainMenu()
+	// {
+	// 	// GetTree().ChangeSceneToPacked(MAINSCENE);
+	// 	GameManager.LoadMain();
+	// }
 }
